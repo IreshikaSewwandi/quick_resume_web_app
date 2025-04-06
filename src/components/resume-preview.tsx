@@ -10,7 +10,7 @@ export function ResumePreview({ data }: ResumePreviewProps) {
   const { personalInfo, experience, education, skills } = data
 
   return (
-    <div className="p-8 max-w-[800px] mx-auto font-sans">
+    <div id="resume-preview-content" className="p-8 max-w-[800px] mx-auto font-sans">
       {/* Header */}
       <div className="mb-6 text-center">
         <h1 className="text-2xl font-bold mb-1">{personalInfo.name || "Your Name"}</h1>
