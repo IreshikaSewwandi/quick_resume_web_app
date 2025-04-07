@@ -4,10 +4,19 @@ import Link from "next/link"
 import { Button } from "../components/ui/button"
 import { ModeToggle } from "../components/mode-toggle"
 import { useState } from "react"
-import { Menu, X } from "lucide-react"
+import { Menu, X, User, LogOut } from "lucide-react"
+import { useAuth } from "@/providers/auth-provider"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../components/ui/dropdown-menu"
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { user, signOut } = useAuth()
 
   return (
     <header className="w-full border-b bg-background">
@@ -28,10 +37,51 @@ export default function Header() {
         </nav>
         <div className="ml-auto flex items-center gap-2">
           <ModeToggle />
-          <Button className="hidden md:flex">Sign In</Button>
-          <Button variant="outline" className="hidden md:flex">
-            Sign Up
-          </Button>
+
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                  <User className="h-5 w-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <div className="flex items-center justify-start gap-2 p-2">
+                  <div className="flex flex-col space-y-1 leading-none">
+                    {user.name && <p className="font-medium">{user.name}</p>}
+                    {user.email && <p className="w-[200px] truncate text-sm text-gray-500">{user.email}</p>}
+                  </div>
+                </div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard">Dashboard</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/profile">Profile</Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={() => {
+                    signOut()
+                  }}
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Sign out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <>
+              <Button className="hidden md:flex" asChild>
+                <Link href="/auth/signin">Sign In</Link>
+              </Button>
+              <Button variant="outline" className="hidden md:flex" asChild>
+                <Link href="/auth/signup">Sign Up</Link>
+              </Button>
+            </>
+          )}
+
           <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             <span className="sr-only">Toggle menu</span>
@@ -62,10 +112,34 @@ export default function Header() {
             >
               Examples
             </Link>
-            <div className="flex flex-col gap-2 pt-2">
-              <Button>Sign In</Button>
-              <Button variant="outline">Sign Up</Button>
-            </div>
+            {!user ? (
+              <div className="flex flex-col gap-2 pt-2">
+                <Button asChild onClick={() => setIsMenuOpen(false)}>
+                  <Link href="/auth/signin">Sign In</Link>
+                </Button>
+                <Button variant="outline" asChild onClick={() => setIsMenuOpen(false)}>
+                  <Link href="/auth/signup">Sign Up</Link>
+                </Button>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-2 pt-2">
+                <Link href="/dashboard" onClick={() => setIsMenuOpen(false)}>
+                  <Button variant="outline" className="w-full justify-start">
+                    Dashboard
+                  </Button>
+                </Link>
+                <Button
+                  variant="outline"
+                  className="w-full justify-start text-red-500"
+                  onClick={() => {
+                    signOut()
+                    setIsMenuOpen(false)
+                  }}
+                >
+                  Sign Out
+                </Button>
+              </div>
+            )}
           </nav>
         </div>
       )}
