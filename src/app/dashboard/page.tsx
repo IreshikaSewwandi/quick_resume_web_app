@@ -3,11 +3,12 @@
 import { Button } from "../../components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../components/ui/card"
 import Link from "next/link"
-import { FileText, Plus } from "lucide-react"
+import { FileText, Plus, AlertTriangle } from "lucide-react"
 import { useRequireAuth } from "@/hooks/use-require-auth"
+import { Progress } from "../../components/ui/progress"
 
 export default function Dashboard() {
-  const { user, isLoading } = useRequireAuth()
+  const { user, isLoading, canCreateCV } = useRequireAuth()
 
   if (isLoading) {
     return (
@@ -30,16 +31,75 @@ export default function Dashboard() {
     { id: 2, title: "Marketing Specialist Resume", lastUpdated: "2023-03-22" },
   ]
 
+  const { subscription } = user
+  const isFree = subscription?.tier === "free"
+  const cvLimit = isFree ? 2 : Number.POSITIVE_INFINITY
+  const cvCount = subscription?.cvCount || 0
+  const cvRemaining = Math.max(0, cvLimit - cvCount)
+  const cvPercentage = isFree ? (cvCount / cvLimit) * 100 : 100
+
   return (
     <div className="container py-8">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">My Resumes</h1>
-        <Button asChild>
-          <Link href="/builder">
+        <Button asChild disabled={!canCreateCV}>
+          <Link href={canCreateCV ? "/builder" : "/pricing"}>
             <Plus className="mr-2 h-4 w-4" /> Create New Resume
           </Link>
         </Button>
       </div>
+
+      {/* Subscription Status Card */}
+      <Card className="mb-8">
+        <CardHeader>
+          <CardTitle>Subscription Status</CardTitle>
+          <CardDescription>
+            {isFree ? "You're currently on the Free plan" : `You're on the Pro ${subscription?.period} plan`}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div>
+              <div className="flex justify-between mb-1">
+                <span className="text-sm font-medium">Resume Usage</span>
+                <span className="text-sm text-gray-500">
+                  {cvCount} / {isFree ? cvLimit : "Unlimited"}
+                </span>
+              </div>
+              <Progress value={cvPercentage} className="h-2" />
+            </div>
+
+            {isFree && cvCount >= 2 && (
+              <div className="bg-amber-50 dark:bg-amber-900/20 text-amber-800 dark:text-amber-200 p-3 rounded-md flex items-start">
+                <AlertTriangle className="h-5 w-5 mr-2 shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-medium">You've reached your free plan limit</p>
+                  <p className="text-sm mt-1">Upgrade to Pro for unlimited resumes and premium features.</p>
+                </div>
+              </div>
+            )}
+
+            {subscription?.endDate && (
+              <div className="text-sm text-gray-500">
+                {subscription.tier === "pro" && (
+                  <p>Your subscription will renew on {new Date(subscription.endDate).toLocaleDateString()}</p>
+                )}
+              </div>
+            )}
+          </div>
+        </CardContent>
+        <CardFooter>
+          {isFree ? (
+            <Button asChild>
+              <Link href="/pricing">Upgrade to Pro</Link>
+            </Button>
+          ) : (
+            <Button variant="outline" asChild>
+              <Link href="/account/billing">Manage Subscription</Link>
+            </Button>
+          )}
+        </CardFooter>
+      </Card>
 
       {resumes.length === 0 ? (
         <Card className="text-center p-12">
@@ -51,8 +111,8 @@ export default function Dashboard() {
             <p className="text-gray-500 dark:text-gray-400 mb-6 max-w-md mx-auto">
               You haven't created any resumes yet. Start building your professional resume now.
             </p>
-            <Button asChild>
-              <Link href="/builder">
+            <Button asChild disabled={!canCreateCV}>
+              <Link href={canCreateCV ? "/builder" : "/pricing"}>
                 <Plus className="mr-2 h-4 w-4" /> Create Your First Resume
               </Link>
             </Button>
@@ -75,19 +135,20 @@ export default function Dashboard() {
               </CardFooter>
             </Card>
           ))}
-          <Card className="border-dashed flex items-center justify-center h-[200px]">
-            <Button variant="ghost" asChild className="flex flex-col h-full w-full">
-              <Link href="/builder" className="h-full flex items-center justify-center">
-                <div className="text-center">
-                  <Plus className="h-8 w-8 mx-auto mb-2" />
-                  <span>Create New Resume</span>
-                </div>
-              </Link>
-            </Button>
-          </Card>
+          {canCreateCV && (
+            <Card className="border-dashed flex items-center justify-center h-[200px]">
+              <Button variant="ghost" asChild className="flex flex-col h-full w-full">
+                <Link href="/builder" className="h-full flex items-center justify-center">
+                  <div className="text-center">
+                    <Plus className="h-8 w-8 mx-auto mb-2" />
+                    <span>Create New Resume</span>
+                  </div>
+                </Link>
+              </Button>
+            </Card>
+          )}
         </div>
       )}
     </div>
   )
 }
-

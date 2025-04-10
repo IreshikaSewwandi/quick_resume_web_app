@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 
 export function useRequireAuth() {
-  const { user, isLoading } = useAuth()
+  const { user, isLoading, canCreateCV } = useAuth()
   const router = useRouter()
 
   useEffect(() => {
@@ -14,6 +14,5 @@ export function useRequireAuth() {
     }
   }, [user, isLoading, router])
 
-  return { user, isLoading }
+  return { user, isLoading, canCreateCV }
 }
-

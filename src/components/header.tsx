@@ -4,7 +4,7 @@ import Link from "next/link"
 import { Button } from "../components/ui/button"
 import { ModeToggle } from "../components/mode-toggle"
 import { useState } from "react"
-import { Menu, X, User, LogOut } from "lucide-react"
+import { Menu, X, User, LogOut, CreditCard } from "lucide-react"
 import { useAuth } from "@/providers/auth-provider"
 import {
   DropdownMenu,
@@ -17,6 +17,9 @@ import {
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { user, signOut } = useAuth()
+
+  // Safely check if user has a subscription and if the tier is "pro"
+  const isProUser = user?.subscription?.tier === "pro"
 
   return (
     <header className="w-full border-b bg-background">
@@ -33,6 +36,9 @@ export default function Header() {
           </Link>
           <Link href="/examples" className="text-sm font-medium hover:underline underline-offset-4">
             Examples
+          </Link>
+          <Link href="/pricing" className="text-sm font-medium hover:underline underline-offset-4">
+            Pricing
           </Link>
         </nav>
         <div className="ml-auto flex items-center gap-2">
@@ -59,6 +65,21 @@ export default function Header() {
                 <DropdownMenuItem asChild>
                   <Link href="/profile">Profile</Link>
                 </DropdownMenuItem>
+                {isProUser ? (
+                  <DropdownMenuItem asChild>
+                    <Link href="/account/billing">
+                      <CreditCard className="mr-2 h-4 w-4" />
+                      <span>Manage Subscription</span>
+                    </Link>
+                  </DropdownMenuItem>
+                ) : (
+                  <DropdownMenuItem asChild>
+                    <Link href="/pricing">
+                      <CreditCard className="mr-2 h-4 w-4" />
+                      <span>Upgrade to Pro</span>
+                    </Link>
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   className="cursor-pointer"
@@ -112,6 +133,13 @@ export default function Header() {
             >
               Examples
             </Link>
+            <Link
+              href="/pricing"
+              className="text-sm font-medium hover:underline underline-offset-4"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Pricing
+            </Link>
             {!user ? (
               <div className="flex flex-col gap-2 pt-2">
                 <Button asChild onClick={() => setIsMenuOpen(false)}>
@@ -128,6 +156,11 @@ export default function Header() {
                     Dashboard
                   </Button>
                 </Link>
+                {!isProUser && (
+                  <Link href="/pricing" onClick={() => setIsMenuOpen(false)}>
+                    <Button className="w-full justify-start">Upgrade to Pro</Button>
+                  </Link>
+                )}
                 <Button
                   variant="outline"
                   className="w-full justify-start text-red-500"
@@ -146,4 +179,3 @@ export default function Header() {
     </header>
   )
 }
-

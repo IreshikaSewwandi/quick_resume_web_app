@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Button } from "../components/ui/button"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, Check } from "lucide-react"
+import Image from "next/image"
 
 export default function Home() {
   return (
@@ -33,37 +34,21 @@ export default function Home() {
                 </div>
               </div>
               <div className="flex items-center justify-center">
-                <div className="relative w-full h-[450px] bg-gray-100 rounded-lg overflow-hidden dark:bg-gray-800">
-                  <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-100 dark:from-gray-800 dark:to-gray-700">
-                    <div className="absolute inset-0 p-8">
-                      <div className="h-full w-full bg-white rounded-md shadow-lg dark:bg-gray-900">
-                        <div className="p-6 space-y-4">
-                          <div className="w-1/3 h-6 bg-gray-200 rounded dark:bg-gray-700" />
-                          <div className="space-y-2">
-                            <div className="w-3/4 h-4 bg-gray-200 rounded dark:bg-gray-700" />
-                            <div className="w-full h-4 bg-gray-200 rounded dark:bg-gray-700" />
-                            <div className="w-2/3 h-4 bg-gray-200 rounded dark:bg-gray-700" />
-                          </div>
-                          <div className="pt-4 space-y-2">
-                            <div className="w-1/4 h-5 bg-gray-200 rounded dark:bg-gray-700" />
-                            <div className="w-full h-4 bg-gray-200 rounded dark:bg-gray-700" />
-                            <div className="w-full h-4 bg-gray-200 rounded dark:bg-gray-700" />
-                          </div>
-                          <div className="pt-4 space-y-2">
-                            <div className="w-1/4 h-5 bg-gray-200 rounded dark:bg-gray-700" />
-                            <div className="w-full h-4 bg-gray-200 rounded dark:bg-gray-700" />
-                            <div className="w-full h-4 bg-gray-200 rounded dark:bg-gray-700" />
-                            <div className="w-3/4 h-4 bg-gray-200 rounded dark:bg-gray-700" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <div className="relative w-full h-auto">
+                  <Image
+                    src="/section_1.webp"
+                    alt="Resume template preview"
+                    width={750}
+                    height={580}
+                    className="object-contain"
+                    priority
+                  />
                 </div>
               </div>
             </div>
           </div>
         </section>
+
         <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
@@ -144,6 +129,139 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <section className="w-full py-12 md:py-24 bg-white dark:bg-gray-900">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
+              <div className="space-y-2">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Choose Your Plan</h2>
+                <p className="max-w-[600px] text-gray-500 md:text-xl/relaxed dark:text-gray-400">
+                  Get started for free or upgrade to Pro for unlimited resumes and premium features
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              {/* Free Plan */}
+              <div className="flex flex-col border rounded-lg overflow-hidden">
+                <div className="p-6 bg-gray-50 dark:bg-gray-800">
+                  <h3 className="text-2xl font-bold">Free</h3>
+                  <p className="text-gray-500 dark:text-gray-400 mt-2">Basic resume building for starters</p>
+                  <div className="mt-4">
+                    <span className="text-3xl font-bold">$0</span>
+                  </div>
+                </div>
+                <div className="p-6 flex-grow">
+                  <ul className="space-y-3">
+                    <li className="flex items-start">
+                      <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
+                      <span>Create up to 2 resumes</span>
+                    </li>
+                    <li className="flex items-start">
+                      <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
+                      <span>Basic templates</span>
+                    </li>
+                    <li className="flex items-start">
+                      <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
+                      <span>Download as PDF</span>
+                    </li>
+                    <li className="flex items-start">
+                      <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
+                      <span>Email support</span>
+                    </li>
+                  </ul>
+                </div>
+                <div className="p-6 bg-gray-50 dark:bg-gray-800">
+                  <Button asChild className="w-full" variant="outline">
+                    <Link href="/auth/signup">Select Plan</Link>
+                  </Button>
+                </div>
+              </div>
+
+              {/* Pro Monthly Plan */}
+              <div className="flex flex-col border rounded-lg overflow-hidden">
+                <div className="p-6 bg-primary text-white">
+                  <h3 className="text-2xl font-bold">Pro Monthly</h3>
+                  <p className="text-primary-foreground/80 mt-2">Professional resume building with unlimited access</p>
+                  <div className="mt-4">
+                    <span className="text-3xl font-bold">$5</span>
+                    <span className="text-primary-foreground/80 ml-2">/month</span>
+                  </div>
+                </div>
+                <div className="p-6 flex-grow">
+                  <ul className="space-y-3">
+                    <li className="flex items-start">
+                      <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
+                      <span>Unlimited resumes</span>
+                    </li>
+                    <li className="flex items-start">
+                      <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
+                      <span>All premium templates</span>
+                    </li>
+                    <li className="flex items-start">
+                      <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
+                      <span>Download in multiple formats</span>
+                    </li>
+                    <li className="flex items-start">
+                      <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
+                      <span>Priority support</span>
+                    </li>
+                    <li className="flex items-start">
+                      <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
+                      <span>AI resume suggestions</span>
+                    </li>
+                    <li className="flex items-start">
+                      <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
+                      <span>Custom sections</span>
+                    </li>
+                  </ul>
+                </div>
+                <div className="p-6 bg-primary/5">
+                  <Button asChild className="w-full">
+                    <Link href="/pricing">Select Plan</Link>
+                  </Button>
+                </div>
+              </div>
+
+              {/* Pro Annual Plan */}
+              <div className="flex flex-col border rounded-lg overflow-hidden border-primary shadow-lg">
+                <div className="p-6 bg-primary text-white">
+                  <h3 className="text-2xl font-bold">Pro Annual</h3>
+                  <p className="text-primary-foreground/80 mt-2">Save 17% with annual billing</p>
+                  <div className="mt-4">
+                    <span className="text-3xl font-bold">$50</span>
+                    <span className="text-primary-foreground/80 ml-2">/year</span>
+                  </div>
+                </div>
+                <div className="p-6 flex-grow">
+                  <ul className="space-y-3">
+                    <li className="flex items-start">
+                      <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
+                      <span>Everything in Pro Monthly</span>
+                    </li>
+                    <li className="flex items-start">
+                      <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
+                      <span>2 months free</span>
+                    </li>
+                    <li className="flex items-start">
+                      <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
+                      <span>Resume analytics</span>
+                    </li>
+                    <li className="flex items-start">
+                      <Check className="h-5 w-5 text-green-500 mr-2 shrink-0" />
+                      <span>Early access to new features</span>
+                    </li>
+                  </ul>
+                </div>
+                <div className="p-6 bg-primary/5">
+                  <Button asChild className="w-full">
+                    <Link href="/pricing">Select Plan</Link>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
       <footer className="w-full py-6 bg-gray-900 text-white">
         <div className="container px-4 md:px-6">
@@ -157,4 +275,3 @@ export default function Home() {
     </div>
   )
 }
-

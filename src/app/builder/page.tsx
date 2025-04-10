@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "../../components/ui/button"
 import { Card, CardContent } from "../../components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/tabs"
@@ -9,11 +9,17 @@ import { ExperienceForm } from "../../components/experience-form"
 import { EducationForm } from "../../components/education-form"
 import { SkillsForm } from "../../components/skills-form"
 import { ResumePreview } from "../../components/resume-preview"
-import { Download, Eye, Save } from "lucide-react"
+import { Download, Eye, Save, Lock } from "lucide-react"
 import type { ResumeData } from "@/types/resume"
 import { SimpleToast } from "../../components/ui/simple-toast"
+import { useAuth } from "@/providers/auth-provider"
+import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 export default function BuilderPage() {
+  const { user, canCreateCV, incrementCVCount } = useAuth()
+  const router = useRouter()
+  const [isNewResume, setIsNewResume] = useState(true)
   const [resumeData, setResumeData] = useState<ResumeData>({
     personalInfo: {
       name: "",
@@ -38,6 +44,22 @@ export default function BuilderPage() {
     type: "info",
   })
 
+  useEffect(() => {
+    // Check if user can create CV
+    if (user && !canCreateCV && isNewResume) {
+      setToast({
+        show: true,
+        message: "You've reached your free plan limit. Upgrade to Pro for unlimited resumes.",
+        type: "error",
+      })
+
+      // Redirect to pricing after a delay
+      setTimeout(() => {
+        router.push("/pricing")
+      }, 3000)
+    }
+  }, [user, canCreateCV, isNewResume, router])
+
   const updateResumeData = (section: keyof ResumeData, data: any) => {
     setResumeData((prev) => ({
       ...prev,
@@ -45,10 +67,17 @@ export default function BuilderPage() {
     }))
   }
 
-  const handleSave = () => {
+  const handleSave = async () => {
     try {
       // Save to localStorage for now
       localStorage.setItem("savedResume", JSON.stringify(resumeData))
+
+      // If this is a new resume, increment the CV count
+      if (isNewResume) {
+        await incrementCVCount()
+        setIsNewResume(false)
+      }
+
       setToast({
         show: true,
         message: "Resume saved successfully!",
@@ -220,6 +249,31 @@ export default function BuilderPage() {
     setToast({ ...toast, show: false })
   }
 
+  // If user can't create CV and this is a new resume, show upgrade message
+  if (!canCreateCV && isNewResume) {
+    return (
+      <div className="container py-12">
+        <Card className="max-w-2xl mx-auto text-center p-8">
+          <CardContent className="pt-6 pb-8 flex flex-col items-center">
+            <div className="bg-amber-50 dark:bg-amber-900/20 p-4 rounded-full mb-4">
+              <Lock className="h-8 w-8 text-amber-500" />
+            </div>
+            <h2 className="text-2xl font-bold mb-2">Resume Limit Reached</h2>
+            <p className="text-gray-500 dark:text-gray-400 mb-6 max-w-md mx-auto">
+              You've reached the limit of 2 resumes on your free plan. Upgrade to Pro for unlimited resumes and premium
+              features.
+            </p>
+            <Button asChild size="lg">
+              <Link href="/pricing">Upgrade to Pro</Link>
+            </Button>
+          </CardContent>
+        </Card>
+
+        {toast.show && <SimpleToast message={toast.message} type={toast.type} onClose={closeToast} />}
+      </div>
+    )
+  }
+
   return (
     <div className="container py-8">
       <h1 className="text-3xl font-bold mb-6">Resume Builder</h1>
@@ -287,4 +341,3 @@ export default function BuilderPage() {
     </div>
   )
 }
-
