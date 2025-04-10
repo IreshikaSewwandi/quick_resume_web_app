@@ -9,44 +9,44 @@ export default function TemplatesPage() {
       id: "classic",
       name: "Classic",
       description: "A traditional resume layout with a clean, professional look.",
-      image: "/photo1.png?height=400&width=300",
+      image: "/placeholder.svg?height=400&width=300",
     },
     {
       id: "modern",
       name: "Modern",
       description: "A contemporary design with a fresh, creative approach.",
-      image: "/photo4.png?height=400&width=300",
+      image: "/placeholder.svg?height=400&width=300",
     },
     {
       id: "minimal",
       name: "Minimal",
       description: "A simple, elegant design that focuses on content.",
-      image: "/photo3.png?height=400&width=300",
+      image: "/placeholder.svg?height=400&width=300",
     },
     {
       id: "creative",
       name: "Creative",
       description: "A bold design for those who want to stand out.",
-      image: "/photo5.png?height=400&width=300",
+      image: "/placeholder.svg?height=400&width=300",
     },
     {
       id: "professional",
       name: "Professional",
       description: "A sophisticated layout for executive and senior positions.",
-      image: "/photo2.png?height=400&width=300",
+      image: "/placeholder.svg?height=400&width=300",
     },
     {
       id: "academic",
       name: "Academic",
       description: "Designed for academic and research positions.",
-      image: "/photo6.png?height=400&width=300",
+      image: "/placeholder.svg?height=400&width=300",
     },
   ]
 
   return (
     <div className="container py-8">
-      <h1 className="text-3xl font-bold mb-5">Resume Templates</h1>
-      <p className="text-gray-500 dark:text-gray-400">
+      <h1 className="text-3xl font-bold mb-6">Resume Templates</h1>
+      <p className="text-gray-500 dark:text-gray-400 mb-8 max-w-3xl">
         Choose from our collection of professionally designed resume templates. Each template is fully customizable to
         match your personal style.
       </p>
@@ -75,4 +75,3 @@ export default function TemplatesPage() {
     </div>
   )
 }
-

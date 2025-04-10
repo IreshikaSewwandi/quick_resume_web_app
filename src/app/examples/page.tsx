@@ -10,42 +10,42 @@ export default function ExamplesPage() {
       title: "Software Engineer",
       description:
         "A clean, professional resume for software engineering positions highlighting technical skills and project experience.",
-      image: "/Software_Engineer.png?height=400&width=300",
+      image: "/placeholder.svg?height=400&width=300",
     },
     {
       id: "marketing-specialist",
       title: "Marketing Specialist",
       description:
         "Creative resume format for marketing professionals that emphasizes campaign results and creative skills.",
-      image: "/Marketing_Specialist.png?height=400&width=300",
+      image: "/placeholder.svg?height=400&width=300",
     },
     {
       id: "project-manager",
       title: "Project Manager",
       description:
         "Structured resume layout for project managers showcasing leadership skills and successful project deliveries.",
-      image: "/project-manager.png?height=400&width=300",
+      image: "/placeholder.svg?height=400&width=300",
     },
     {
       id: "graphic-designer",
       title: "Graphic Designer",
       description:
         "Visual-focused resume for designers that demonstrates creativity while maintaining professional structure.",
-      image: "/Graphic_Designer.png?height=400&width=300",
+      image: "/placeholder.svg?height=400&width=300",
     },
     {
       id: "data-analyst",
       title: "Data Analyst",
       description:
         "Detail-oriented resume for data professionals highlighting analytical skills and quantifiable achievements.",
-      image: "/data-analyst.png?height=400&width=300",
+      image: "/placeholder.svg?height=400&width=300",
     },
     {
       id: "healthcare-professional",
       title: "Healthcare Professional",
       description:
         "Organized resume for healthcare workers emphasizing certifications, patient care, and medical expertise.",
-      image: "/healthcare-professional.png?height=400&width=300",
+      image: "/placeholder.svg?height=400&width=300",
     },
   ]
 
@@ -94,4 +94,3 @@ export default function ExamplesPage() {
     </div>
   )
 }
-

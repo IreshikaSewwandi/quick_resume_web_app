@@ -1,7 +1,6 @@
 import Link from "next/link"
 import { Button } from "../components/ui/button"
 import { ArrowRight, Check } from "lucide-react"
-import Image from "next/image"
 
 export default function Home() {
   return (
@@ -34,15 +33,32 @@ export default function Home() {
                 </div>
               </div>
               <div className="flex items-center justify-center">
-                <div className="relative w-full h-auto">
-                  <Image
-                    src="/section_1.webp"
-                    alt="Resume template preview"
-                    width={750}
-                    height={580}
-                    className="object-contain"
-                    priority
-                  />
+                <div className="relative w-full h-[450px] bg-gray-100 rounded-lg overflow-hidden dark:bg-gray-800">
+                  <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-100 dark:from-gray-800 dark:to-gray-700">
+                    <div className="absolute inset-0 p-8">
+                      <div className="h-full w-full bg-white rounded-md shadow-lg dark:bg-gray-900">
+                        <div className="p-6 space-y-4">
+                          <div className="w-1/3 h-6 bg-gray-200 rounded dark:bg-gray-700" />
+                          <div className="space-y-2">
+                            <div className="w-3/4 h-4 bg-gray-200 rounded dark:bg-gray-700" />
+                            <div className="w-full h-4 bg-gray-200 rounded dark:bg-gray-700" />
+                            <div className="w-2/3 h-4 bg-gray-200 rounded dark:bg-gray-700" />
+                          </div>
+                          <div className="pt-4 space-y-2">
+                            <div className="w-1/4 h-5 bg-gray-200 rounded dark:bg-gray-700" />
+                            <div className="w-full h-4 bg-gray-200 rounded dark:bg-gray-700" />
+                            <div className="w-full h-4 bg-gray-200 rounded dark:bg-gray-700" />
+                          </div>
+                          <div className="pt-4 space-y-2">
+                            <div className="w-1/4 h-5 bg-gray-200 rounded dark:bg-gray-700" />
+                            <div className="w-full h-4 bg-gray-200 rounded dark:bg-gray-700" />
+                            <div className="w-full h-4 bg-gray-200 rounded dark:bg-gray-700" />
+                            <div className="w-3/4 h-4 bg-gray-200 rounded dark:bg-gray-700" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
